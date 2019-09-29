@@ -10,7 +10,7 @@ export default function RouteWrapper({
   isPrivate,
   ...rest
 }) {
-  const signed = false;
+  const signed = true;
 
   if (!signed && isPrivate) {
     return <Redirect to="/" />;
@@ -20,7 +20,7 @@ export default function RouteWrapper({
   }
 
   const Layout = signed ? DefaultLayout : AuthLayout;
-
+  console.tron.log(Layout);
   return (
     <Route
       {...rest}
