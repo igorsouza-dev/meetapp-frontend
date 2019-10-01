@@ -7,7 +7,7 @@ export const Container = styled.div`
 
 export const Content = styled.div`
   height: 64px;
-  max-width: 900px;
+  max-width: 940px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -16,11 +16,6 @@ export const Content = styled.div`
   nav {
     display: flex;
     align-items: center;
-
-    img {
-      margin-right: 20px;
-      padding-right: 20px;
-    }
 
     aside {
       display: flex;
