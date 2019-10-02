@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   max-width: 940px;
@@ -12,21 +14,26 @@ export const Container = styled.div`
       color: #fff;
       display: inline;
     }
-    button {
-      border: 0;
-      background: #f94d6a;
-      color: #fff;
-      font-weight: bold;
-      border-radius: 4px;
-      padding: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  }
+`;
 
-      svg {
-        margin-right: 10px;
-      }
-    }
+export const NewMeetupButton = styled(Link)`
+  border: 0;
+  background: #f94d6a;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+
+  &:hover {
+    background: ${darken(0.03, '#F94D6A')};
+  }
+  svg {
+    margin-right: 10px;
   }
 `;
 
@@ -36,7 +43,7 @@ export const MeetupList = styled.div`
   flex-direction: column;
 `;
 
-export const Meetup = styled.div`
+export const Meetup = styled(Link)`
   margin: 10px 0;
   border: 0;
   background: rgba(0, 0, 0, 0.2);
@@ -44,6 +51,12 @@ export const Meetup = styled.div`
   border-radius: 4px;
   display: flex;
   justify-content: space-between;
+  transition: background 0.5s;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+  }
 
   strong {
     color: #fff;
