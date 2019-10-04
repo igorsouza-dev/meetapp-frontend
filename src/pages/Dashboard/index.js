@@ -13,7 +13,7 @@ export default function Dashboard() {
     <Container>
       <div>
         <h1>My MeetUps</h1>
-        <NewMeetupButton to="/new">
+        <NewMeetupButton to="/meetup">
           <MdAddCircleOutline color="#fff" size={18} />
           New Meetup
         </NewMeetupButton>

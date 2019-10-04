@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input } from '@rocketseat/unform';
-import { MdAddCircleOutline } from 'react-icons/md';
+import { MdSave } from 'react-icons/md';
 import { Container } from './styles';
 
 export default function Profile() {
@@ -27,7 +27,7 @@ export default function Profile() {
         />
         <div>
           <button type="submit">
-            <MdAddCircleOutline color="#fff" size={16} />
+            <MdSave color="#fff" size={16} />
             Save profile
           </button>
         </div>
