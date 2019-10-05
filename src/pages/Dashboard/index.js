@@ -1,13 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdAddCircleOutline, MdChevronRight } from 'react-icons/md';
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
+import pt from 'date-fns/locale/pt';
 import { Container, MeetupList, Meetup, NewMeetupButton } from './styles';
+import api from '~/services/api';
 
 export default function Dashboard() {
-  const meetups = [
-    { id: 1, name: 'React native Meetup', date: 'June 20th, 20h' },
-    { id: 2, name: 'NodeJS Meetup', date: 'June 21th, 20h' },
-    { id: 3, name: 'PHP Meetup', date: 'June 22th, 20h' },
-  ];
+  const [meetups, setMeetups] = useState([]);
+
+  useEffect(() => {
+    async function loadMeetups() {
+      const response = await api.get('/organizer');
+      const { data } = response;
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const responseMeetups = data.map(meetup => {
+        const formattedDate = format(
+          utcToZonedTime(meetup.date, timezone),
+          "d 'de' MMMM 'de' yyyy, HH:mm",
+          { locale: pt }
+        );
+        const newMeetup = { ...meetup, formattedDate };
+        return newMeetup;
+      });
+      setMeetups(responseMeetups);
+      console.tron.log(responseMeetups);
+    }
+    loadMeetups();
+  }, []);
 
   return (
     <Container>
@@ -18,17 +38,21 @@ export default function Dashboard() {
           New Meetup
         </NewMeetupButton>
       </div>
-      <MeetupList>
-        {meetups.map(meetup => (
-          <Meetup to={`/details/${meetup.id}`}>
-            <strong>{meetup.name}</strong>
-            <div>
-              <span>{meetup.date}</span>
-              <MdChevronRight color="#fff" size={20} />
-            </div>
-          </Meetup>
-        ))}
-      </MeetupList>
+      {meetups.length > 0 ? (
+        <MeetupList>
+          {meetups.map(meetup => (
+            <Meetup to={`/details/${meetup.id}`}>
+              <strong>{meetup.title}</strong>
+              <div>
+                <span>{meetup.formattedDate}</span>
+                <MdChevronRight color="#fff" size={20} />
+              </div>
+            </Meetup>
+          ))}
+        </MeetupList>
+      ) : (
+        <strong>You don&apos;t have any meetups</strong>
+      )}
     </Container>
   );
 }

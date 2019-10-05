@@ -15,6 +15,14 @@ export const Container = styled.div`
       display: inline;
     }
   }
+  > strong {
+    margin-top: 10px;
+    color: #fff;
+    display: block;
+    font-size: 24px;
+    text-align: center;
+    align-self: stretch;
+  }
 `;
 
 export const NewMeetupButton = styled(Link)`
