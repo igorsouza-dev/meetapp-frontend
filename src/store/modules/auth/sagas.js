@@ -36,7 +36,15 @@ export function* signUp({ payload }) {
     toast.success('Sign Up was a success!');
     history.push('/');
   } catch (err) {
-    toast.error('Sign Up failed!');
+    let { message } = err;
+    if (err.response) {
+      if (err.response.data) {
+        if (err.response.data.error) {
+          message = err.response.data.error;
+        }
+      }
+    }
+    toast.error(`Sign Up failed! ${message}`);
     yield put(signFailure());
   }
 }
