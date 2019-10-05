@@ -4,7 +4,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 export const Container = styled.div`
   max-width: 940px;
-  margin: 50px auto;
+  margin: 0 auto;
+  margin-bottom: 10px;
 
   form {
     display: flex;

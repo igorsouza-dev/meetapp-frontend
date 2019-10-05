@@ -33,6 +33,12 @@ export const Container = styled.div`
         color: rgba(255, 255, 255, 0.7);
       }
     }
+    span {
+      color: #fb6f91;
+      align-self: flex-start;
+      margin: 0 0 10px;
+      font-weight: bold;
+    }
     div {
       align-self: stretch;
       display: flex;

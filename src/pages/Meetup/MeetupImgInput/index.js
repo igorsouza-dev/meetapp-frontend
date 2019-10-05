@@ -6,8 +6,11 @@ export default function MeetupImgInput() {
   return (
     <Container>
       <label>
-        <MdImage color="rgba(255,255,255,0.3)" size={48} />
-        <img src={MdImage} alt="" />
+        <div>
+          <MdImage color="rgba(255,255,255,0.3)" size={48} />
+          <span>Select an image</span>
+        </div>
+        <img src={null} alt="" />
         <input type="file" />
       </label>
     </Container>
