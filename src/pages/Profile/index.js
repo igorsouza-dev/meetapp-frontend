@@ -83,7 +83,7 @@ export default function Profile() {
           placeholder="Confirm the new password"
         />
         <div>
-          <button type="submit">
+          <button className="btn" type="submit">
             <MdSave color="#fff" size={16} />
             Save profile
           </button>

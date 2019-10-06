@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { darken } from 'polished';
 
 export const Container = styled.div`
   max-width: 940px;
@@ -22,26 +21,6 @@ export const Container = styled.div`
     font-size: 24px;
     text-align: center;
     align-self: stretch;
-  }
-`;
-
-export const NewMeetupButton = styled(Link)`
-  border: 0;
-  background: #f94d6a;
-  color: #fff;
-  font-weight: bold;
-  border-radius: 4px;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
-
-  &:hover {
-    background: ${darken(0.03, '#F94D6A')};
-  }
-  svg {
-    margin-right: 10px;
   }
 `;
 

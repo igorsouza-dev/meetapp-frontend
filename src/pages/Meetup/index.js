@@ -1,35 +1,79 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Form, Input } from '@rocketseat/unform';
-import DatePicker from 'react-datepicker';
-import { MdSave } from 'react-icons/md';
+import { MdSave, MdArrowBack } from 'react-icons/md';
+import * as Yup from 'yup';
+import history from '~/services/history';
+
+import api from '~/services/api';
+
 import { Container } from './styles';
 import MeetupImgInput from './MeetupImgInput';
+import DatePicker from '~/components/DatePicker';
+
+import {
+  createMeetupRequest,
+  updateMeetupRequest,
+} from '~/store/modules/meetup/actions';
+
+const schema = Yup.object().shape({
+  title: Yup.string().required('The title is required'),
+  description: Yup.string()
+    .min(25, 'Description must have at least 25 characters.')
+    .required('The description is required'),
+  localization: Yup.string().required('The localization is required'),
+  file_id: Yup.number().required('You need to select an image for the meetup'),
+  date: Yup.string().required('The date and time of the meetup is required'),
+});
 
 export default function Meetup({ match }) {
-  const { id } = match.params;
-  const [startDate, setStartDate] = useState(new Date());
+  const dispatch = useDispatch();
+  const [meetup, setMeetup] = useState({});
+  const [file, setFile] = useState();
+
+  useEffect(() => {
+    async function getMeetup(id) {
+      const response = await api.get(`/meetups/${id}`);
+      if (response.data) {
+        const { data } = response;
+        if (data.File) {
+          setFile(data.File);
+        }
+        setMeetup(response.data);
+      }
+    }
+    if (match.params.id) {
+      getMeetup(match.params.id);
+    }
+  }, [match.params.id]);
+
+  function handleSubmit(data) {
+    if (match.params.id) {
+      dispatch(updateMeetupRequest({ ...data, id: match.params.id }));
+    } else {
+      dispatch(createMeetupRequest(data));
+    }
+  }
+
   return (
     <Container>
-      <Form onSubmit={() => {}}>
-        <MeetupImgInput />
+      <button type="button" className="btn" onClick={() => history.goBack()}>
+        <MdArrowBack color="#fff" size={20} />
+        Back
+      </button>
+      <Form schema={schema} initialData={meetup} onSubmit={handleSubmit}>
+        <MeetupImgInput fileObj={file} />
         <Input className="inputs" name="title" placeholder="Title" />
         <Input
           className="inputs"
           name="description"
           placeholder="Description"
         />
-        <DatePicker
-          selected={startDate}
-          onChange={date => setStartDate(date)}
-          showTimeSelect
-          className="inputs"
-          timeFormat="HH:mm"
-          locale="pt-BR"
-          dateFormat="MMMM d, yyyy HH:mm"
-        />
+        <DatePicker name="date" />
         <Input className="inputs" name="localization" placeholder="Location" />
         <div className="footer">
-          <button type="submit">
+          <button type="submit" className="btn">
             <MdSave color="#fff" size={20} />
             Save
           </button>
@@ -38,3 +82,10 @@ export default function Meetup({ match }) {
     </Container>
   );
 }
+Meetup.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.node,
+    }).isRequired,
+  }).isRequired,
+};

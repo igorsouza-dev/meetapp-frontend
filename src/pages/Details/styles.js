@@ -49,25 +49,6 @@ export const MeetupHeader = styled.div`
     }
   }
 `;
-export const EditMeetupButton = styled(Link)`
-  border: 0;
-  background: #4dbaf9;
-  color: #fff;
-  font-weight: bold;
-  border-radius: 4px;
-  padding: 10px 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
-
-  &:hover {
-    background: ${darken(0.05, '#4DBAF9')};
-  }
-  svg {
-    margin-right: 10px;
-  }
-`;
 
 export const MeetupDescription = styled.div`
   p {

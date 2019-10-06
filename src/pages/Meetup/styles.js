@@ -5,6 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 export const Container = styled.div`
   max-width: 940px;
   margin: 0 auto;
+  margin-top: 30px;
   margin-bottom: 10px;
 
   form {
@@ -25,30 +26,15 @@ export const Container = styled.div`
         color: rgba(255, 255, 255, 0.7);
       }
     }
+    span {
+      color: #fb6f91;
+      align-self: flex-start;
+      margin: 0 0 10px;
+      font-weight: bold;
+    }
     div.footer {
       display: flex;
       justify-content: flex-end;
-
-      button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 0;
-        background: #f94d6a;
-        border-radius: 4px;
-        transition: background 0.5s;
-        font-size: 14px;
-        font-weight: bold;
-        color: #fff;
-        padding: 10px 15px;
-
-        &:hover {
-          background: ${darken(0.03, '#f94d6a')};
-        }
-        svg {
-          margin-right: 10px;
-        }
-      }
     }
   }
 `;

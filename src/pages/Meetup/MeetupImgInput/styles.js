@@ -33,6 +33,7 @@ export const Container = styled.div`
         font-weight: bold;
         margin-top: 10px;
         font-size: 20px;
+        align-self: center;
       }
     }
   }
