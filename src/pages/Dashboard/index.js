@@ -56,9 +56,7 @@ export default function Dashboard() {
           ))}
         </MeetupList>
       ) : (
-        <strong>
-          {loading ? 'Loading' : 'You don&apos;t have any meetups'}
-        </strong>
+        <strong>{loading ? 'Loading' : "You don't have any meetups"}</strong>
       )}
     </Container>
   );
