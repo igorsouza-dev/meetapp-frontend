@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import { Form, Input } from '@rocketseat/unform';
 import { MdSave, MdArrowBack } from 'react-icons/md';
 import * as Yup from 'yup';
+
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
+import pt from 'date-fns/locale/pt';
 import history from '~/services/history';
 
 import api from '~/services/api';
@@ -29,18 +33,24 @@ const schema = Yup.object().shape({
 
 export default function Meetup({ match }) {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const [meetup, setMeetup] = useState({});
   const [file, setFile] = useState();
 
   useEffect(() => {
     async function getMeetup(id) {
+      setLoading(true);
       const response = await api.get(`/meetups/${id}`);
+      setLoading(false);
       if (response.data) {
         const { data } = response;
         if (data.File) {
           setFile(data.File);
         }
-        setMeetup(response.data);
+
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        data.date = utcToZonedTime(data.date, timezone);
+        setMeetup(data);
       }
     }
     if (match.params.id) {
@@ -62,23 +72,34 @@ export default function Meetup({ match }) {
         <MdArrowBack color="#fff" size={20} />
         Back
       </button>
-      <Form schema={schema} initialData={meetup} onSubmit={handleSubmit}>
-        <MeetupImgInput fileObj={file} />
-        <Input className="inputs" name="title" placeholder="Title" />
-        <Input
-          className="inputs"
-          name="description"
-          placeholder="Description"
-        />
-        <DatePicker name="date" />
-        <Input className="inputs" name="localization" placeholder="Location" />
-        <div className="footer">
-          <button type="submit" className="btn">
-            <MdSave color="#fff" size={20} />
-            Save
-          </button>
-        </div>
-      </Form>
+      {loading ? (
+        <strong>Loading...</strong>
+      ) : (
+        <>
+          <Form schema={schema} initialData={meetup} onSubmit={handleSubmit}>
+            <MeetupImgInput fileObj={file} />
+            <Input className="inputs" name="title" placeholder="Title" />
+            <Input
+              className="inputs"
+              name="description"
+              multiline
+              placeholder="Description"
+            />
+            <DatePicker name="date" />
+            <Input
+              className="inputs"
+              name="localization"
+              placeholder="Location"
+            />
+            <div className="footer">
+              <button type="submit" className="btn">
+                <MdSave color="#fff" size={20} />
+                Save
+              </button>
+            </div>
+          </Form>
+        </>
+      )}
     </Container>
   );
 }

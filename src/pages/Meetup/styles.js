@@ -1,12 +1,19 @@
 import styled from 'styled-components';
-import { darken } from 'polished';
-import 'react-datepicker/dist/react-datepicker.css';
 
 export const Container = styled.div`
   max-width: 940px;
   margin: 0 auto;
   margin-top: 30px;
   margin-bottom: 10px;
+
+  > strong {
+    margin-top: 10px;
+    color: #fff;
+    display: block;
+    font-size: 24px;
+    text-align: center;
+    align-self: stretch;
+  }
 
   form {
     display: flex;

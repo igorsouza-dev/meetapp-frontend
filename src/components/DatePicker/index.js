@@ -25,14 +25,13 @@ export default function DatePicker({ name }) {
     <>
       <ReactDatePicker
         name={fieldName}
-        placeholder="Date/Time"
         selected={selected}
         onChange={date => setSelected(date)}
         showTimeSelect
         className="inputs"
         timeFormat="HH:mm"
         locale="pt-BR"
-        dateFormat="d/MM/yyyy HH:mm"
+        dateFormat="dd/MM/yyyy HH:mm"
         ref={ref}
       />
       {error && <span>{error}</span>}
