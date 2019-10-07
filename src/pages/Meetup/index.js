@@ -5,9 +5,7 @@ import { Form, Input } from '@rocketseat/unform';
 import { MdSave, MdArrowBack } from 'react-icons/md';
 import * as Yup from 'yup';
 
-import { format } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
-import pt from 'date-fns/locale/pt';
+import { parseISO } from 'date-fns';
 import history from '~/services/history';
 
 import api from '~/services/api';
@@ -48,8 +46,7 @@ export default function Meetup({ match }) {
           setFile(data.File);
         }
 
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        data.date = utcToZonedTime(data.date, timezone);
+        data.date = parseISO(data.date);
         setMeetup(data);
       }
     }

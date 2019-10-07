@@ -21,12 +21,21 @@ export default function DatePicker({ name }) {
     });
   }, [ref.current, fieldName]); // eslint-disable-line
 
+  useEffect(() => {
+    if (!defaultValue) {
+      setSelected(new Date());
+    } else {
+      setSelected(defaultValue);
+    }
+  }, [defaultValue]);
+
   return (
     <>
       <ReactDatePicker
         name={fieldName}
         selected={selected}
         onChange={date => setSelected(date)}
+        minDate={new Date()}
         showTimeSelect
         className="inputs"
         timeFormat="HH:mm"

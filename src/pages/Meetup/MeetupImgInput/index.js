@@ -65,10 +65,12 @@ export default function MeetupImgInput({ fileObj }) {
     </Container>
   );
 }
-
+MeetupImgInput.defaultProps = {
+  fileObj: {},
+};
 MeetupImgInput.propTypes = {
   fileObj: PropTypes.shape({
     url: PropTypes.string,
     id: PropTypes.number,
-  }).isRequired,
+  }),
 };
