@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MdEdit, MdDeleteForever, MdEvent, MdLocationOn } from 'react-icons/md';
-
+import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import pt from 'date-fns/locale/pt';
@@ -20,15 +20,27 @@ export default function Details({ match }) {
 
   useEffect(() => {
     async function getMeetup() {
-      const response = await api.get(`/meetups/${match.params.id}`);
-      const meetupResponse = response.data;
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      meetupResponse.formattedDate = format(
-        utcToZonedTime(meetupResponse.date, timezone),
-        "d/MM/yyyy, 'às' HH:mm'h'",
-        { locale: pt }
-      );
-      setMeetup(meetupResponse);
+      try {
+        const response = await api.get(`/meetups/${match.params.id}`);
+        const meetupResponse = response.data;
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        meetupResponse.formattedDate = format(
+          utcToZonedTime(meetupResponse.date, timezone),
+          "d/MM/yyyy, 'às' HH:mm'h'",
+          { locale: pt }
+        );
+        setMeetup(meetupResponse);
+      } catch (err) {
+        let { message } = err;
+        if (err.response) {
+          if (err.response.data) {
+            if (err.response.data.error) {
+              message = err.response.data.error;
+            }
+          }
+        }
+        toast.error(`There was an error while loading the meetup: ${message}`);
+      }
     }
     getMeetup();
   }, [match.params.id]);

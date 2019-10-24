@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { signInSuccess, signFailure } from './actions';
+import { signInSuccess, signFailure, signInRequest } from './actions';
 
 export function* signIn({ payload }) {
   try {
@@ -34,7 +34,7 @@ export function* signUp({ payload }) {
       password,
     });
     toast.success('Sign Up was a success!');
-    history.push('/');
+    yield put(signInRequest(email, password));
   } catch (err) {
     let { message } = err;
     if (err.response) {

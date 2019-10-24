@@ -33,6 +33,10 @@ export const Container = styled.div`
         color: rgba(255, 255, 255, 0.7);
       }
     }
+
+    #description {
+      height: 70px;
+    }
     span {
       color: #fb6f91;
       align-self: flex-start;

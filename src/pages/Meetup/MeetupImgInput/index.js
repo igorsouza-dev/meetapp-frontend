@@ -4,6 +4,7 @@ import { useField } from '@rocketseat/unform';
 import { MdImage } from 'react-icons/md';
 import { Container } from './styles';
 import api from '~/services/api';
+import placeholder from '~/assets/placeholder.png';
 
 export default function MeetupImgInput({ fileObj }) {
   const { defaultValue, registerField, error } = useField('file_id');
@@ -44,13 +45,7 @@ export default function MeetupImgInput({ fileObj }) {
   return (
     <Container>
       <label htmlFor="file_id">
-        {!preview && (
-          <div>
-            <MdImage color="rgba(255,255,255,0.3)" size={48} />
-            <span>Select an image</span>
-          </div>
-        )}
-        <img src={preview || ''} alt="" />
+        <img src={preview || placeholder} alt="" />
         <input
           type="file"
           name="file_id"

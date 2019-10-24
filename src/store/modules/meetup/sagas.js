@@ -59,6 +59,7 @@ export function* updateMeetup({ payload }) {
         }
       }
     }
+    history.goBack();
     toast.error(`There was an error while updating the meetup: ${message}`);
     yield put(meetupFailure());
   }
