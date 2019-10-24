@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Form, Input } from '@rocketseat/unform';
 import { MdSave, MdArrowBack } from 'react-icons/md';
 import * as Yup from 'yup';
-
+import { toast } from 'react-toastify';
 import { parseISO } from 'date-fns';
 import history from '~/services/history';
 
@@ -23,6 +23,7 @@ const schema = Yup.object().shape({
   title: Yup.string().required('The title is required'),
   description: Yup.string()
     .min(25, 'Description must have at least 25 characters.')
+    .max(255, 'Description must have at most 255 characters.')
     .required('The description is required'),
   localization: Yup.string().required('The localization is required'),
   file_id: Yup.number().required('You need to select an image for the meetup'),
@@ -37,17 +38,35 @@ export default function Meetup({ match }) {
 
   useEffect(() => {
     async function getMeetup(id) {
-      setLoading(true);
-      const response = await api.get(`/meetups/${id}`);
-      setLoading(false);
-      if (response.data) {
-        const { data } = response;
-        if (data.File) {
-          setFile(data.File);
+      try {
+        setLoading(true);
+        const response = await api.get(`/meetups/${id}`);
+        setLoading(false);
+        if (response.data) {
+          const { data } = response;
+          if (data.File) {
+            setFile(data.File);
+          }
+          data.date = parseISO(data.date);
+          if (!data.past) {
+            setMeetup(data);
+          } else {
+            toast.error("You can't edit a meetup that have already happened!");
+            history.push(`/details/${match.params.id}`);
+          }
         }
-
-        data.date = parseISO(data.date);
-        setMeetup(data);
+      } catch (err) {
+        let { message } = err;
+        if (err.response) {
+          if (err.response.data) {
+            if (err.response.data.error) {
+              message = err.response.data.error;
+            }
+          }
+        }
+        setLoading(false);
+        history.push('/');
+        toast.error(message);
       }
     }
     if (match.params.id) {

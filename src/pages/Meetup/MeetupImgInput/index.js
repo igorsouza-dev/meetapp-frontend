@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useField } from '@rocketseat/unform';
-import { MdImage } from 'react-icons/md';
 import { Container } from './styles';
 import api from '~/services/api';
 import placeholder from '~/assets/placeholder.png';

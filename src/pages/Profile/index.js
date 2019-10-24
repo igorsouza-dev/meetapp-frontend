@@ -7,8 +7,10 @@ import { Container } from './styles';
 import { updateProfileRequest } from '~/store/modules/user/actions';
 
 const schema = Yup.object().shape({
-  name: Yup.string(),
-  email: Yup.string().email(),
+  name: Yup.string().required(),
+  email: Yup.string()
+    .email()
+    .required(),
   oldPassword: Yup.string()
     .notRequired()
     .test(

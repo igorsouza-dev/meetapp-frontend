@@ -27,12 +27,13 @@ export function* createMeetup({ payload }) {
     let { message } = err;
     if (err.response) {
       if (err.response.data) {
-        if (err.response.data.error) {
-          message = err.response.data.error;
+        const { data } = err.response;
+        if (data.error) {
+          message = data.error;
         }
       }
     }
-    toast.error(`There was an error while creating the meetup: ${message}`);
+    toast.error(message);
     yield put(meetupFailure());
   }
 }
@@ -54,13 +55,14 @@ export function* updateMeetup({ payload }) {
     let { message } = err;
     if (err.response) {
       if (err.response.data) {
-        if (err.response.data.error) {
-          message = err.response.data.error;
+        const { data } = err.response;
+        if (data.error) {
+          message = data.error;
         }
       }
     }
     history.goBack();
-    toast.error(`There was an error while updating the meetup: ${message}`);
+    toast.error(message);
     yield put(meetupFailure());
   }
 }

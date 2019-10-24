@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import pt from 'date-fns/locale/pt';
+import history from '~/services/history';
 
 import { cancelMeetupRequest } from '~/store/modules/meetup/actions';
 
@@ -16,11 +17,13 @@ import { Container, MeetupHeader, MeetupDescription } from './styles';
 
 export default function Details({ match }) {
   const [meetup, setMeetup] = useState({});
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
     async function getMeetup() {
       try {
+        setLoading(true);
         const response = await api.get(`/meetups/${match.params.id}`);
         const meetupResponse = response.data;
         const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -29,6 +32,7 @@ export default function Details({ match }) {
           "d/MM/yyyy, 'às' HH:mm'h'",
           { locale: pt }
         );
+        setLoading(false);
         setMeetup(meetupResponse);
       } catch (err) {
         let { message } = err;
@@ -39,7 +43,9 @@ export default function Details({ match }) {
             }
           }
         }
-        toast.error(`There was an error while loading the meetup: ${message}`);
+        setLoading(false);
+        history.push('/');
+        toast.error(message);
       }
     }
     getMeetup();
@@ -53,7 +59,7 @@ export default function Details({ match }) {
     <Container>
       <MeetupHeader>
         <h1>{meetup.title}</h1>
-        {meetup && !meetup.past && (
+        {meetup && !meetup.past && !loading && (
           <div>
             <Link className="btn btn-edit" to={`/meetup/${meetup.id}`}>
               <MdEdit color="#fff" size={20} />

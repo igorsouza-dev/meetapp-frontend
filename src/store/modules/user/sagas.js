@@ -25,7 +25,7 @@ export function* updateProfile({ payload }) {
         }
       }
     }
-    toast.error(`There was an error while updating your profile: ${message}`);
+    toast.error(message);
     yield put(updateProfileFailure());
   }
 }
