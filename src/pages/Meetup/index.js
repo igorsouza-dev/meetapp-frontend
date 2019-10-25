@@ -25,7 +25,9 @@ const schema = Yup.object().shape({
     .min(25, 'Description must have at least 25 characters.')
     .max(255, 'Description must have at most 255 characters.')
     .required('The description is required'),
-  localization: Yup.string().required('The localization is required'),
+  localization: Yup.string()
+    .min(5, 'The location must have at least 5 characters')
+    .required('The location is required'),
   file_id: Yup.number().required('You need to select an image for the meetup'),
   date: Yup.string().required('The date and time of the meetup is required'),
 });

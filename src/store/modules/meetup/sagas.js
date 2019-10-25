@@ -61,7 +61,6 @@ export function* updateMeetup({ payload }) {
         }
       }
     }
-    history.goBack();
     toast.error(message);
     yield put(meetupFailure());
   }
